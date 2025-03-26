@@ -1,3 +1,4 @@
+// 계절별 컬러 테마 ( 봄, 여름, 가을, 겨울 계절별로 색상 자동 변경 )
 const theme = {
 	spring: {
 		Primary: {
