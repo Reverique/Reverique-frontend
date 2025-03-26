@@ -43,14 +43,6 @@ export const GlobalStyle = createGlobalStyle`
     line-height: 1;
   }
 
-  #root, .App{
-    height: 100%;
-  }
-
-  .App{
-    padding-bottom:16px;
-  }
-
   section{
     height:100%;
   }
