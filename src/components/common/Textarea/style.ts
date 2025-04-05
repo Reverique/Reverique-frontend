@@ -36,7 +36,8 @@ export const TextareaContainer = styled.div`
 	}
 
 	.error-msg-container {
-		margin-top: 4px;
+		position: absolute;
+		bottom: -18px;
 		.error-msg {
 			color: ${(props) => props.theme.Error.Default};
 			font-size: 12px;

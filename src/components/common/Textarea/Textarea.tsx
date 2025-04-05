@@ -34,7 +34,7 @@ const Textarea = ({
 				maxLength={maxLength}
 				placeholder={placeHolder || ''}
 			/>
-			{value !== '' && error.isErrorMsg && (
+			{error.isErrorMsg && (
 				<div className="error-msg-container">
 					<p className="error-msg">{error.errorMsg}</p>
 				</div>

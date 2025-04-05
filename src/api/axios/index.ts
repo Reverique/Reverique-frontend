@@ -3,7 +3,7 @@ import { localStorageHelper } from 'utils/localStorageHelper';
 
 // axios setting
 const instance = axios.create({
-	baseURL: process.env.NEXT_BASE_URL,
+	baseURL: '/api',
 });
 
 // Add a request interceptor

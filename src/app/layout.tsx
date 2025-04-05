@@ -1,5 +1,6 @@
 'use client';
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from 'styles/global';
@@ -21,6 +22,7 @@ const getSeasonTheme = () => {
 	}
 };
 
+const queryClient = new QueryClient();
 const inter = Inter({ subsets: ['latin'] });
 
 export default function RootLayout({
@@ -33,11 +35,13 @@ export default function RootLayout({
 	return (
 		<html lang="ko">
 			<body className={inter.className}>
-				<ThemeProvider theme={seasonTheme}>
-					<GlobalStyle />
-					<Header />
-					{children}
-				</ThemeProvider>
+				<QueryClientProvider client={queryClient}>
+					<ThemeProvider theme={seasonTheme}>
+						<GlobalStyle />
+						<Header />
+						{children}
+					</ThemeProvider>
+				</QueryClientProvider>
 			</body>
 		</html>
 	);

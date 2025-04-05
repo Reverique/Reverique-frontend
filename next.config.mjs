@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 
-const baseURL = process.env.NEXT_BASE_URL;
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const nextConfig = {
     reactStrictMode: true,
@@ -11,8 +11,8 @@ const nextConfig = {
     async rewrites() {
         return [
             {
-                source: "/:path*",
-                destination: `${baseURL}:path*`,
+                source: "/api/:path*",
+                destination: `${baseURL}/:path*`,
             },
         ];
     },
