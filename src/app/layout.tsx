@@ -1,7 +1,9 @@
 'use client';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import TabBar from 'components/common/TabBar/TabBar';
 import { Inter } from 'next/font/google';
+import { RecoilRoot } from 'recoil';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from 'styles/global';
 import theme from 'styles/theme';
@@ -35,13 +37,16 @@ export default function RootLayout({
 	return (
 		<html lang="ko">
 			<body className={inter.className}>
-				<QueryClientProvider client={queryClient}>
-					<ThemeProvider theme={seasonTheme}>
-						<GlobalStyle />
-						<Header />
-						{children}
-					</ThemeProvider>
-				</QueryClientProvider>
+				<RecoilRoot>
+					<QueryClientProvider client={queryClient}>
+						<ThemeProvider theme={seasonTheme}>
+							<GlobalStyle />
+							<Header />
+							{children}
+							<TabBar />
+						</ThemeProvider>
+					</QueryClientProvider>
+				</RecoilRoot>
 			</body>
 		</html>
 	);

@@ -4,7 +4,9 @@ import QuestionBox from 'components/common/QuestionBox/QuestionBox';
 import Textarea from 'components/common/Textarea/Textarea';
 import RootContent from 'components/layout/RootContent/RootContent';
 import { FormContent, useForm } from 'react-formatic';
+
 import Button from '../components/common/Button/Button';
+
 const Home = () => {
 	const {
 		inputValue,
@@ -32,7 +34,6 @@ const Home = () => {
 			<div>
 				<FormContent onSubmit={() => {}}>
 					<QuestionBox question={inputValue.question}></QuestionBox>
-
 					<Textarea
 						name="answer"
 						value={inputValue.answer}

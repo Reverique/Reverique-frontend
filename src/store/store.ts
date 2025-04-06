@@ -1,3 +1,4 @@
+import { TabBarIconTypes } from 'components/common/TabBar/interface';
 import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
 import { localStorageHelper } from 'utils/localStorageHelper';
@@ -27,4 +28,9 @@ export const userInfoState = atom<string | null>({
 	key: 'userInfo',
 	default: '',
 	effects_UNSTABLE: [persistAtom],
+});
+
+export const tabBarIconState = atom<TabBarIconTypes[]>({
+	key: 'tabBarIcon',
+	default: [],
 });
