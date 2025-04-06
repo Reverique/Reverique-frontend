@@ -23,33 +23,37 @@ export const getTodayQuestion = async (
 	return response.data;
 };
 
-// 오늘의 랜덤 질문 답변 ( 수정 필요 )
+// 오늘의 랜덤 질문 답변 ( 수정도 post 사용 )
 export const postTodayQuestion = async (
 	requestData: TodayQuestionAnswerRequestTypes,
 ) => {
 	const response = await api<TodayQuestionResponseTypes>(
 		'post',
 		200,
-		'user/question',
-		requestData,
+		`/answers/${requestData.id}`,
+		{
+			answer: requestData.answer,
+		},
 	);
 
 	return response.data;
 };
 
 // 오늘의 랜덤 징문 답변 내용 수정
-export const putTodayQuestion = async (
-	requestData: TodayQuestionAnswerRequestTypes,
-) => {
-	const response = await api<TodayQuestionResponseTypes>(
-		'patch',
-		200,
-		`/answers/${requestData.id}`,
-		requestData,
-	);
+// export const putTodayQuestion = async (
+// 	requestData: TodayQuestionAnswerRequestTypes,
+// ) => {
+// 	const response = await api<TodayQuestionResponseTypes>(
+// 		'patch',
+// 		200,
+// 		`/answers/${requestData.id}`,
+// 		{
+// 			answer: requestData.answer,
+// 		},
+// 	);
 
-	return response.data;
-};
+// 	return response.data;
+// };
 
 // 내가 답변한 질문 리스트
 export const getQuestionList = async (

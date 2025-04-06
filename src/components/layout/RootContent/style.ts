@@ -5,8 +5,7 @@ export const RootContentContainer = styled.main`
 	flex-direction: column;
 	align-items: center;
 	justify-content: flex-start;
-	min-height: 100vh;
-	padding: 20px;
+	padding: 20px 20px 65px 20px;
 	background-color: ${({ theme }) => theme.Background.Default};
 	color: ${({ theme }) => theme.Text.Primary};
 	font-family: 'Arial', sans-serif;

@@ -5,11 +5,7 @@ export interface TodayQuestionRequestTypes {
 
 export interface TodayQuestionAnswerRequestTypes {
 	id: number;
-	userId: number;
-	coupleId: number;
-	questionId: number;
-	createdAt: string;
-	deleted: number;
+	answer: string;
 }
 
 export interface TodayQuestionResponseTypes {
@@ -28,10 +24,24 @@ export interface QuestionListRequestTypes {
 }
 
 export interface QuestionListResponseTypes {
+	code: number;
+	data: QuestionListTypes[];
+	message: string;
+	pageInfo: QuestionListResponsePageTypes;
+	status: string;
+}
+
+export interface QuestionListTypes {
 	questionId: number;
 	content: string;
 	answer1: string;
 	answer2: string;
 	createdAt: string;
 }
-[];
+
+export interface QuestionListResponsePageTypes {
+	number: number;
+	size: number;
+	totalElements: number;
+	totalPages: number;
+}

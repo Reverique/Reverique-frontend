@@ -2,6 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import TabBar from 'components/common/TabBar/TabBar';
+import RootContent from 'components/layout/RootContent/RootContent';
 import { Inter } from 'next/font/google';
 import { RecoilRoot } from 'recoil';
 import { ThemeProvider } from 'styled-components';
@@ -42,7 +43,7 @@ export default function RootLayout({
 						<ThemeProvider theme={seasonTheme}>
 							<GlobalStyle />
 							<Header />
-							{children}
+							<RootContent>{children}</RootContent>
 							<TabBar />
 						</ThemeProvider>
 					</QueryClientProvider>

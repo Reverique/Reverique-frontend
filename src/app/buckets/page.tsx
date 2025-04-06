@@ -1,5 +1,5 @@
-const buckets = () => {
+const Buckets = () => {
 	return <>buckets</>;
 };
 
-export default buckets;
+export default Buckets;

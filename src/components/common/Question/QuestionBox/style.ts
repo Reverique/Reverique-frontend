@@ -3,15 +3,15 @@ import { styled } from 'styled-components';
 export const QuestionBoxContainer = styled.div`
 	position: relative;
 	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
+	align-items: center;
 	justify-content: center;
+	width: 100%;
 	padding: 16px 20px;
+	margin-bottom: 20px;
 	background-color: ${(props) => props.theme.Background.Default};
 	border: 1px solid ${(props) => props.theme.Border.Default};
 	border-radius: 8px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	margin-bottom: 20px;
 
 	.question-text {
 		font-size: 16px;
