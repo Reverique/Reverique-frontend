@@ -1,10 +1,11 @@
 'use client';
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getQuestionList, postTodayQuestion } from 'api/question';
+import { useQueryClient } from '@tanstack/react-query';
 import Modal from 'components/common/Modal/Modal';
 import Question from 'components/common/Question/Question';
 import Textarea from 'components/common/Textarea/Textarea';
+import { useAnswerMutation } from 'hooks/mutations/questions/useAnswer';
+import { useQuestionList } from 'hooks/queries/questions/useQuestion';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-formatic';
 import { useRecoilState } from 'recoil';
@@ -12,7 +13,6 @@ import { loadingState, questionDetailState } from 'store/store';
 import {
 	QuestionListResponsePageTypes,
 	QuestionListTypes,
-	TodayQuestionResponseTypes,
 } from 'types/question/type';
 import * as S from './style';
 const Questions = () => {
@@ -54,45 +54,23 @@ const Questions = () => {
 		totalPages: 0,
 	});
 
-	const { isLoading: isQuestionsDataLoading, data: questionsData } = useQuery({
-		queryKey: ['questionList'],
-		queryFn: () =>
-			getQuestionList({
-				userId: 1,
-				coupleId: 3,
-			}),
-		retry: false,
-		refetchOnWindowFocus: false,
-	});
+	const { data: questionsData, isLoading: isQuestionsDataLoading } =
+		useQuestionList(1, 3);
 
-	const updateAnswerTheQuestion = useMutation<
-		TodayQuestionResponseTypes,
-		Error,
-		{ userId: number; questionId: number; answer: string }
-	>({
-		mutationFn: ({ userId, questionId, answer }) => {
-			const requestData = {
-				userId: userId,
-				questionId: questionId,
-				answer: answer,
-			};
-
-			const res = postTodayQuestion(requestData);
-			// const res = putTodayQuestion(requestData);
-
-			return res;
-		},
-		onSuccess: () => {
+	const answerMutation = useAnswerMutation({
+		path: 'questionList',
+		onSuccessCallback: () => {
 			initializeData();
-			queryClient.invalidateQueries({
-				queryKey: ['questionList'],
-			});
 		},
-		onError: (error) => {
-			console.error('error:', error);
-		},
-		onSettled: () => {},
 	});
+
+	const handleSubmitAnswer = () => {
+		answerMutation.mutate({
+			userId: 1,
+			questionId: inputValue.questionId,
+			answer: inputValue.answer1,
+		});
+	};
 
 	const setAnswerTheQuestion = (id: number) => {
 		if (!id) {
@@ -118,7 +96,6 @@ const Questions = () => {
 
 	useEffect(() => {
 		if (questionsData && questionsData.data.length !== 0) {
-			setIsLoading(true);
 			setQuestionList(questionsData.data);
 			setPages((prev) => ({
 				...prev,
@@ -156,13 +133,7 @@ const Questions = () => {
 					cancelButtonText="취소"
 					confirmButtonDisabled={errors.answer1}
 					onCancelButton={() => initializeData()}
-					onConfirmButton={() =>
-						updateAnswerTheQuestion.mutate({
-							userId: 1,
-							questionId: inputValue.questionId,
-							answer: inputValue.answer1,
-						})
-					}
+					onConfirmButton={() => handleSubmitAnswer()}
 				>
 					<Question
 						questionId={inputValue.questionId}

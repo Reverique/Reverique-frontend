@@ -3,17 +3,15 @@
 import Textarea from 'components/common/Textarea/Textarea';
 import { useForm } from 'react-formatic';
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getTodayQuestion, postTodayQuestion } from 'api/question';
+import { useQueryClient } from '@tanstack/react-query';
 import Modal from 'components/common/Modal/Modal';
 import Question from 'components/common/Question/Question';
+import { useAnswerMutation } from 'hooks/mutations/questions/useAnswer';
+import { useTodayQuestion } from 'hooks/queries/questions/useQuestion';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { loadingState, questionDetailState } from 'store/store';
-import {
-	TodayQuestionResponseTypes,
-	TodayQuestionTypes,
-} from 'types/question/type';
+import { TodayQuestionTypes } from 'types/question/type';
 
 const Home = () => {
 	const {
@@ -47,45 +45,23 @@ const Home = () => {
 
 	const [isAddQuestion, setIsAddQuestion] = useState<boolean>(false);
 
-	const { isLoading: isDailyQuestionDataLoading, data: dailyQuestionData } =
-		useQuery({
-			queryKey: ['dailyQuestion'],
-			queryFn: () =>
-				getTodayQuestion({
-					userId: 3,
-					coupleId: 1,
-				}),
-			retry: false,
-			refetchOnWindowFocus: false,
-		});
+	const { data: dailyQuestionData, isLoading: isDailyQuestionDataLoading } =
+		useTodayQuestion(3, 1);
 
-	const updateAnswerTheQuestion = useMutation<
-		TodayQuestionResponseTypes,
-		Error,
-		{ userId: number; questionId: number; answer: string }
-	>({
-		mutationFn: ({ userId, questionId, answer }) => {
-			const requestData = {
-				userId: userId,
-				questionId: questionId,
-				answer: answer,
-			};
-
-			const res = postTodayQuestion(requestData);
-
-			return res;
+	const answerMutation = useAnswerMutation({
+		path: 'daily',
+		onSuccessCallback: () => {
+			initializeData();
 		},
-		onSuccess: () => {
-			setIsAddQuestion(false);
-			queryClient.invalidateQueries({
-				queryKey: ['dailyQuestion'],
-			});
-		},
-		onError: (error) => {
-			console.error('error:', error);
-		},
-		onSettled: () => {},
 	});
+
+	const handleSubmitAnswer = () => {
+		answerMutation.mutate({
+			userId: 1,
+			questionId: inputValue.questionId,
+			answer: inputValue.answer1 || '',
+		});
+	};
 
 	const initializeData = () => {
 		setIsAddQuestion(false);
@@ -123,13 +99,7 @@ const Home = () => {
 							cancelButtonText="취소"
 							confirmButtonDisabled={errors.answer1}
 							onCancelButton={() => initializeData()}
-							onConfirmButton={() =>
-								updateAnswerTheQuestion.mutate({
-									userId: 1,
-									questionId: inputValue.questionId,
-									answer: inputValue.answer1 || '',
-								})
-							}
+							onConfirmButton={() => handleSubmitAnswer()}
 						>
 							<Question
 								questionId={inputValue.questionId}
