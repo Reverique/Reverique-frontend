@@ -4,15 +4,24 @@ export interface TodayQuestionRequestTypes {
 }
 
 export interface TodayQuestionAnswerRequestTypes {
-	id: number;
+	userId: number;
+	questionId: number;
 	answer: string;
 }
 
 export interface TodayQuestionResponseTypes {
+	status: string;
+	code: number;
+	message: string;
+	data: TodayQuestionTypes;
+	pageInfo: QuestionListResponsePageTypes;
+}
+
+export interface TodayQuestionTypes {
 	questionId: number;
 	content: string;
-	answer1: string;
-	answer2: string;
+	answer1: string | null;
+	answer2: string | null;
 	createdAt: string;
 }
 
@@ -40,6 +49,7 @@ export interface QuestionListTypes {
 }
 
 export interface QuestionListResponsePageTypes {
+	page: number;
 	number: number;
 	size: number;
 	totalElements: number;

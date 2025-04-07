@@ -30,10 +30,8 @@ export const postTodayQuestion = async (
 	const response = await api<TodayQuestionResponseTypes>(
 		'post',
 		200,
-		`/answers/${requestData.id}`,
-		{
-			answer: requestData.answer,
-		},
+		`/answers`,
+		requestData,
 	);
 
 	return response.data;
@@ -46,10 +44,8 @@ export const postTodayQuestion = async (
 // 	const response = await api<TodayQuestionResponseTypes>(
 // 		'patch',
 // 		200,
-// 		`/answers/${requestData.id}`,
-// 		{
-// 			answer: requestData.answer,
-// 		},
+// 		`/answers/${requestData.questionId}`,
+// 		requestData,
 // 	);
 
 // 	return response.data;

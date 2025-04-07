@@ -73,5 +73,15 @@ export const GlobalStyle = createGlobalStyle`
     cursor: pointer;
   }
 
+	.answer-modal-textarea {
+		width: 100%;
+		height: 100%;
+		margin-bottom: 0px;
+
+		textarea {
+			height: inherit;
+		}
+	}
+
 
 `;

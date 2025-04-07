@@ -2,7 +2,7 @@ import constants from 'constants/index';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { tabBarIconState } from 'store/store';
+import { loadingState, tabBarIconState } from 'store/store';
 import { TabBarIconTypes } from './interface';
 import * as S from './style';
 
@@ -11,6 +11,7 @@ const TabBar = () => {
 		useRecoilState<TabBarIconTypes[]>(tabBarIconState);
 	const router = useRouter();
 	const path = usePathname();
+	const [isLoading, setIsLoading] = useRecoilState<boolean>(loadingState);
 
 	const movedToPage = (index: number) => {
 		if (index === undefined || index === null) {
@@ -25,7 +26,7 @@ const TabBar = () => {
 		});
 
 		setIconList(result);
-
+		setIsLoading(true);
 		router.push(constants.TAB_BAR_ROUTES[index]);
 	};
 

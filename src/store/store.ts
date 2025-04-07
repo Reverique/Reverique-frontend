@@ -34,3 +34,13 @@ export const tabBarIconState = atom<TabBarIconTypes[]>({
 	key: 'tabBarIcon',
 	default: [],
 });
+
+export const loadingState = atom<boolean>({
+	key: 'loading',
+	default: false,
+});
+
+export const questionDetailState = atom<number | null>({
+	key: 'questionDetail',
+	default: null,
+});

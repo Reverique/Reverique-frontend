@@ -1,9 +1,19 @@
 'use client';
 
 import Textarea from 'components/common/Textarea/Textarea';
-import { FormContent, useForm } from 'react-formatic';
+import { useForm } from 'react-formatic';
 
-import Button from '../components/common/Button/Button';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { getTodayQuestion, postTodayQuestion } from 'api/question';
+import Modal from 'components/common/Modal/Modal';
+import Question from 'components/common/Question/Question';
+import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { loadingState, questionDetailState } from 'store/store';
+import {
+	TodayQuestionResponseTypes,
+	TodayQuestionTypes,
+} from 'types/question/type';
 
 const Home = () => {
 	const {
@@ -15,32 +25,133 @@ const Home = () => {
 		onChangeCheckBox,
 		isFormValid,
 		errors,
-	} = useForm(
+	} = useForm<TodayQuestionTypes>(
 		{
 			questionId: 0,
-			question: `It's Today Question!!`,
-			answer: '',
-			date: null,
+			content: '',
+			answer1: null,
+			answer2: null,
+			createdAt: '',
 		},
 		{
-			answer: (value: string) => value.length > 0,
+			answer1: (value: string) => value !== '',
 		},
 	);
 
+	const queryClient = useQueryClient();
+
+	const [showQuestion, setShowQuestion] = useRecoilState<number | null>(
+		questionDetailState,
+	);
+	const [isLoading, setIsLoading] = useRecoilState<boolean>(loadingState);
+
+	const [isAddQuestion, setIsAddQuestion] = useState<boolean>(false);
+
+	const { isLoading: isDailyQuestionDataLoading, data: dailyQuestionData } =
+		useQuery({
+			queryKey: ['dailyQuestion'],
+			queryFn: () =>
+				getTodayQuestion({
+					userId: 3,
+					coupleId: 1,
+				}),
+			retry: false,
+			refetchOnWindowFocus: false,
+		});
+
+	const updateAnswerTheQuestion = useMutation<
+		TodayQuestionResponseTypes,
+		Error,
+		{ userId: number; questionId: number; answer: string }
+	>({
+		mutationFn: ({ userId, questionId, answer }) => {
+			const requestData = {
+				userId: userId,
+				questionId: questionId,
+				answer: answer,
+			};
+
+			const res = postTodayQuestion(requestData);
+
+			return res;
+		},
+		onSuccess: () => {
+			setIsAddQuestion(false);
+			queryClient.invalidateQueries({
+				queryKey: ['dailyQuestion'],
+			});
+		},
+		onError: (error) => {
+			console.error('error:', error);
+		},
+		onSettled: () => {},
+	});
+
+	const initializeData = () => {
+		setIsAddQuestion(false);
+
+		setInputValue((prev) => ({
+			...prev,
+			answer1: dailyQuestionData?.data.answer1 || null,
+		}));
+	};
+
+	useEffect(() => {
+		if (dailyQuestionData && dailyQuestionData.data) {
+			setIsLoading(true);
+			setInputValue((prev) => ({ ...dailyQuestionData.data }));
+		}
+	}, [dailyQuestionData]);
+
 	return (
 		<div>
-			<FormContent onSubmit={() => {}}>
-				<Textarea
-					name="answer"
-					value={inputValue.answer}
-					onChange={onChangeInputValue}
-					error={{
-						isErrorMsg: errors.answer,
-						errorMsg: '답변을 입력해주세요.',
-					}}
-				></Textarea>
-				<Button disabled={errors.answer}>Button</Button>
-			</FormContent>
+			{inputValue.content !== '' && (
+				<>
+					<Question
+						questionId={inputValue.questionId}
+						content={inputValue.content}
+						createdAt={inputValue.createdAt}
+						answer1={inputValue.answer1}
+						answer2={inputValue.answer2}
+						isActive={showQuestion === inputValue.questionId}
+						onToggle={(id) => setShowQuestion(id)}
+						onEditClick={() => setIsAddQuestion(true)}
+					/>
+					{isAddQuestion && (
+						<Modal
+							confirmButtonText="확인"
+							cancelButtonText="취소"
+							confirmButtonDisabled={errors.answer1}
+							onCancelButton={() => initializeData()}
+							onConfirmButton={() =>
+								updateAnswerTheQuestion.mutate({
+									userId: 1,
+									questionId: inputValue.questionId,
+									answer: inputValue.answer1 || '',
+								})
+							}
+						>
+							<Question
+								questionId={inputValue.questionId}
+								content={inputValue.content}
+								createdAt={inputValue.createdAt}
+								answer1={null}
+								answer2={null}
+								isActive={false}
+								onToggle={() => {
+									return;
+								}}
+							/>
+							<Textarea
+								className="answer-modal-textarea"
+								name="answer1"
+								value={inputValue.answer1 || ''}
+								onChange={onChangeInputValue}
+							/>
+						</Modal>
+					)}
+				</>
+			)}
 		</div>
 	);
 };

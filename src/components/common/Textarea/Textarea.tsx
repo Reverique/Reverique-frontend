@@ -29,7 +29,7 @@ const Textarea = ({
 				name={name}
 				className={`textarea-input ${value !== '' && error.isErrorMsg ? 'error' : ''}`}
 				id={name}
-				value={value}
+				value={value || ''}
 				onChange={onChange}
 				maxLength={maxLength}
 				placeholder={placeHolder || ''}
