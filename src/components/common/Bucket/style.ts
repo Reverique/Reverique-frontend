@@ -1,9 +1,8 @@
 import styled from 'styled-components';
 
 export const BucketContainer = styled.div`
-	border: 1px solid red;
 	position: relative;
-	/* width: 100%; */
+	width: 100%;
 
 	& > div {
 		display: flex;

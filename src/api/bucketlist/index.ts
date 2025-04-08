@@ -3,7 +3,6 @@ import {
 	BucketEditRequestTypes,
 	BucketListRequestTypes,
 	BucketListResponseTypes,
-	BucketListTypes,
 } from 'types/bucketlist/type';
 
 // 등록한 버킷리스트 불러오기
@@ -21,8 +20,9 @@ export const getBucketList = async (requestData: BucketListRequestTypes) => {
 	return response.data;
 };
 
-// 버킷리스트 최초 등록하기
-export const postBucketList = async (requestData: BucketListTypes) => {
+// 버킷리스트 최초 등록하기 ( 수정필요 requestData type 임의로 지정 )
+//  !!TODO: 최초 등록인데 Request body에 보내는 데이터가 백엔드 기준으로 되어 있음.. 백엔드에 수정 요청 필요
+export const postBucketList = async (requestData: BucketEditRequestTypes) => {
 	const response = await api<BucketListResponseTypes>(
 		'post',
 		200,

@@ -4,8 +4,8 @@ export const ButtonContainer = styled.button`
 	cursor: pointer;
 	border: none;
 	border-radius: 4px;
-	padding: 10px 20px;
-	font-size: 16px;
+	padding: 8px 20px;
+	font-size: 14px;
 	font-weight: 600;
 	line-height: 1.5;
 	text-align: center;
