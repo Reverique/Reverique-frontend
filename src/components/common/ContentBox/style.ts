@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 
-export const QuestionBoxContainer = styled.div`
+export const ContentBoxContainer = styled.div`
 	position: relative;
 	display: flex;
 	align-items: center;
@@ -13,7 +13,7 @@ export const QuestionBoxContainer = styled.div`
 	border-radius: 8px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
-	.question-text {
+	.content-text {
 		font-size: 16px;
 		line-height: 24px;
 		color: ${(props) => props.theme.Text.Primary};

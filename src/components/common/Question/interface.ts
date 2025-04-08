@@ -5,6 +5,6 @@ export interface QuestionProps {
 	answer1: string | null;
 	answer2: string | null;
 	isActive?: boolean;
-	onToggle?: (id: number) => void;
-	onEditClick?: (id: number) => void;
+	onToggle?: (id: number) => void | undefined;
+	onEditClick?: (id: number) => void | undefined;
 }

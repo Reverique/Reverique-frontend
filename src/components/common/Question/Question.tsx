@@ -1,7 +1,7 @@
 import { FaEdit } from 'react-icons/fa';
 import Answer from '../Answer/Answer';
+import ContentBox from '../ContentBox/ContentBox';
 import { QuestionProps } from './interface';
-import QuestionBox from './QuestionBox/QuestionBox';
 import * as S from './style';
 const Question = ({
 	questionId,
@@ -16,13 +16,13 @@ const Question = ({
 	return (
 		<S.QuestionContainer>
 			<span className="question-date">{createdAt}</span>
-			<div className="question-content" onClick={() => onToggle(questionId)}>
-				<QuestionBox question={content}></QuestionBox>
+			<div className="question-content" onClick={() => onToggle?.(questionId)}>
+				<ContentBox content={content}></ContentBox>
 			</div>
 			<div className={`answer-container ${isActive ? 'show' : 'hide'}`}>
 				<div className="my-answer-content">
 					<div className="answer-icon-container">
-						<FaEdit onClick={() => onEditClick(questionId)} />
+						<FaEdit onClick={() => onEditClick?.(questionId)} />
 					</div>
 					<Answer answer={answer1}></Answer>
 				</div>

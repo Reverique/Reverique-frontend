@@ -38,7 +38,7 @@ export const postTodayQuestion = async (
 };
 
 // 오늘의 랜덤 징문 답변 내용 수정
-// export const putTodayQuestion = async (
+// export const patchTodayQuestion = async (
 // 	requestData: TodayQuestionAnswerRequestTypes,
 // ) => {
 // 	const response = await api<TodayQuestionResponseTypes>(
