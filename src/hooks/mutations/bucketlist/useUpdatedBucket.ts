@@ -22,7 +22,8 @@ export const useCreatedBucketMutation = (onSuccessCallback?: () => void) => {
 	});
 };
 
-// !! TODO: 완료 처리하면 버킷리스트 목록에서 사라지는 오류 발견 ( 수정 요청 필요 )
+// !! TODO: 완료 처리 및 수정하면 순서가 자꾸 변경됨 ( 수정 요청 필요 )
+// TODO: 완료 처리 취소 기능 구현 필요!
 export const useEditedBucketMutation = (onSuccessCallback?: () => void) => {
 	const queryClient = useQueryClient();
 

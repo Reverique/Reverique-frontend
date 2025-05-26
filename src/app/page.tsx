@@ -8,12 +8,14 @@ import Modal from 'components/common/Modal/Modal';
 import Question from 'components/common/Question/Question';
 import { useAnswerMutation } from 'hooks/mutations/questions/useAnswer';
 import { useTodayQuestion } from 'hooks/queries/questions/useQuestion';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { loadingState, questionDetailState } from 'store/store';
+import { loadingState, questionDetailState, userInfoState } from 'store/store';
 import { TodayQuestionTypes } from 'types/question/type';
 
 const Home = () => {
+	const router = useRouter();
 	const {
 		inputValue,
 		setInputValue,
@@ -41,6 +43,9 @@ const Home = () => {
 	const [showQuestion, setShowQuestion] = useRecoilState<number | null>(
 		questionDetailState,
 	);
+
+	const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+
 	const [isLoading, setIsLoading] = useRecoilState<boolean>(loadingState);
 
 	const [isAddQuestion, setIsAddQuestion] = useState<boolean>(false);
@@ -71,6 +76,13 @@ const Home = () => {
 			answer1: dailyQuestionData?.data.answer1 || null,
 		}));
 	};
+
+	useEffect(() => {
+		console.log('userInfo', userInfo);
+		if (!userInfo) {
+			router.push('/auth');
+		}
+	}, []);
 
 	useEffect(() => {
 		if (dailyQuestionData && dailyQuestionData.data) {

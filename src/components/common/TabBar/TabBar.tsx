@@ -2,11 +2,12 @@ import constants from 'constants/index';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { loadingState, tabBarIconState } from 'store/store';
+import { loadingState, tabBarIconState, userInfoState } from 'store/store';
 import { TabBarIconTypes } from './interface';
 import * as S from './style';
-
 const TabBar = () => {
+	const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+
 	const [iconList, setIconList] =
 		useRecoilState<TabBarIconTypes[]>(tabBarIconState);
 	const router = useRouter();
@@ -50,20 +51,22 @@ const TabBar = () => {
 	}, []);
 
 	return (
-		<S.TabBarContainer>
-			<ul className="tab-bar-icon-lists">
-				{iconList.length !== 0 &&
-					iconList.map((item, idx) => (
-						<li
-							key={idx}
-							className={`tab-bar-icon-list ${item.isActive ? 'active' : ''}`}
-							onClick={() => movedToPage(idx)}
-						>
-							<item.icon />
-						</li>
-					))}
-			</ul>
-		</S.TabBarContainer>
+		userInfo && (
+			<S.TabBarContainer>
+				<ul className="tab-bar-icon-lists">
+					{iconList.length !== 0 &&
+						iconList.map((item, idx) => (
+							<li
+								key={idx}
+								className={`tab-bar-icon-list ${item.isActive ? 'active' : ''}`}
+								onClick={() => movedToPage(idx)}
+							>
+								<item.icon />
+							</li>
+						))}
+				</ul>
+			</S.TabBarContainer>
+		)
 	);
 };
 

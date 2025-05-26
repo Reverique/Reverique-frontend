@@ -1,8 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { postTodayQuestion } from 'api/question';
+import { patchTodayQuestion } from 'api/question';
 import { TodayQuestionResponseTypes } from 'types/question/type';
 
 // 질문에 대한 답변 등록/수정
+// !! TODO:: 수정 필요!
 export const useAnswerMutation = ({
 	path = '',
 	onSuccessCallback,
@@ -18,7 +19,7 @@ export const useAnswerMutation = ({
 		{ userId: number; questionId: number; answer: string }
 	>({
 		mutationFn: ({ userId, questionId, answer }) =>
-			postTodayQuestion({ userId, questionId, answer }),
+			patchTodayQuestion({ userId, questionId, answer }),
 		onSuccess: () => {
 			path === 'daily'
 				? queryClient.invalidateQueries({ queryKey: ['dailyQuestion'] })

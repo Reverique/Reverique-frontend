@@ -27,6 +27,7 @@ axios.interceptors.response.use(
 		return response;
 	},
 	(error) => {
+		console.log('error', error);
 		if (!localStorageHelper('get', 'access_token')) {
 			window?.location?.replace('/');
 			return false;

@@ -55,7 +55,7 @@ const Questions = () => {
 	});
 
 	const { data: questionsData, isLoading: isQuestionsDataLoading } =
-		useQuestionList(1, 3);
+		useQuestionList(3, 1);
 
 	const answerMutation = useAnswerMutation({
 		path: 'questionList',
@@ -66,7 +66,7 @@ const Questions = () => {
 
 	const handleSubmitAnswer = () => {
 		answerMutation.mutate({
-			userId: 1,
+			userId: 3,
 			questionId: inputValue.questionId,
 			answer: inputValue.answer1,
 		});

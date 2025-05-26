@@ -13,7 +13,7 @@ export const getBucketList = async (requestData: BucketListRequestTypes) => {
 		'/bucketlists',
 		{
 			coupleId: requestData.coupleId,
-			isCompleted: requestData.isCompleted || 0,
+			// isCompleted: requestData.isCompleted || 0,
 		},
 	);
 
