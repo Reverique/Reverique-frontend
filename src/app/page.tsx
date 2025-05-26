@@ -78,7 +78,6 @@ const Home = () => {
 	};
 
 	useEffect(() => {
-		console.log('userInfo', userInfo);
 		if (!userInfo) {
 			router.push('/auth');
 		}
