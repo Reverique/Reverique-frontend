@@ -4,11 +4,14 @@ import TextInput from 'components/common/TextInput/TextInput';
 import { useLogin } from 'hooks/mutations/auth/useLogin';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-formatic';
+import { useRecoilState } from 'recoil';
+import { userInfoState } from 'store/store';
 import { LoginRequestTypes } from 'types/auth/type';
 import { emailValidation, passwordValidation } from 'utils/formValidation';
 import * as S from './style';
 const Login = () => {
 	const router = useRouter();
+	const [userInfo, setUserInfo] = useRecoilState<string | null>(userInfoState);
 
 	const {
 		inputValue,
@@ -30,15 +33,13 @@ const Login = () => {
 		},
 	);
 
-	const signInMutation = useLogin(() => {
-		console.log('로그인 성공');
+	const signInMutation = useLogin((token: string) => {
+		setUserInfo(token);
 
 		router.push('/');
 	});
 
 	const postSignIn = () => {
-		console.log('로그인 시도');
-
 		if (!isFormValid) return;
 
 		signInMutation.mutate({

@@ -44,3 +44,8 @@ export const questionDetailState = atom<number | null>({
 	key: 'questionDetail',
 	default: null,
 });
+
+export const verifyEmailState = atom<string>({
+	key: 'verifyEmail',
+	default: '',
+});

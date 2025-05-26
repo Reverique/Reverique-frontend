@@ -4,6 +4,26 @@ export interface LoginRequestTypes {
 }
 
 export interface LoginResponseTypes {
-	accessToken: 'string';
-	refreshToken: 'string';
+	accessToken: string;
+	refreshToken: string;
+}
+
+export interface JoinRequestTypes {
+	email: string;
+	password: string;
+	name: string;
+	nickname: string;
+	birthDate: string;
+	gender: any;
+	phoneNumber?: string;
+	address?: string;
+}
+
+export interface verifyEmailRequestTypes {
+	email: string;
+}
+
+export interface verifyEmailCodeRequestTypes {
+	email?: string;
+	code: string;
 }

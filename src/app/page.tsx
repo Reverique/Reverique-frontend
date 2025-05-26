@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { loadingState, questionDetailState, userInfoState } from 'store/store';
 import { TodayQuestionTypes } from 'types/question/type';
+import { localStorageHelper } from 'utils/localStorageHelper';
 
 const Home = () => {
 	const router = useRouter();
@@ -78,8 +79,12 @@ const Home = () => {
 	};
 
 	useEffect(() => {
-		if (!userInfo) {
+		const token = localStorageHelper('get', 'access_token');
+
+		if (!token) {
 			router.push('/auth');
+		} else {
+			setUserInfo(token);
 		}
 	}, []);
 
