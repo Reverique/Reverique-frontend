@@ -5,13 +5,14 @@ import { useLogin } from 'hooks/mutations/auth/useLogin';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-formatic';
 import { useRecoilState } from 'recoil';
-import { userInfoState } from 'store/store';
+import { accessTokenState } from 'store/store';
 import { LoginRequestTypes } from 'types/auth/type';
 import { emailValidation, passwordValidation } from 'utils/formValidation';
+import { localStorageHelper } from 'utils/localStorageHelper';
 import * as S from './style';
 const Login = () => {
 	const router = useRouter();
-	const [userInfo, setUserInfo] = useRecoilState<string | null>(userInfoState);
+	const [token, setToken] = useRecoilState<string | null>(accessTokenState);
 
 	const {
 		inputValue,
@@ -34,7 +35,8 @@ const Login = () => {
 	);
 
 	const signInMutation = useLogin((token: string) => {
-		setUserInfo(token);
+		localStorageHelper('set', 'accessToken', token);
+		setToken(token);
 
 		router.push('/');
 	});

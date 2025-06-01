@@ -17,6 +17,7 @@ export interface JoinRequestTypes {
 	gender: any;
 	phoneNumber?: string;
 	address?: string;
+	code?: string;
 }
 
 export interface verifyEmailRequestTypes {

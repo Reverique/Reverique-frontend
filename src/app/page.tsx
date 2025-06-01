@@ -8,6 +8,7 @@ import Modal from 'components/common/Modal/Modal';
 import Question from 'components/common/Question/Question';
 import { useAnswerMutation } from 'hooks/mutations/questions/useAnswer';
 import { useTodayQuestion } from 'hooks/queries/questions/useQuestion';
+import { useUserInfo } from 'hooks/queries/user/useUserInfo';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
@@ -47,12 +48,15 @@ const Home = () => {
 
 	const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
+	const { data: userInfoData, isLoading: isUserInfoDataLoading } =
+		useUserInfo();
+
 	const [isLoading, setIsLoading] = useRecoilState<boolean>(loadingState);
 
 	const [isAddQuestion, setIsAddQuestion] = useState<boolean>(false);
 
 	const { data: dailyQuestionData, isLoading: isDailyQuestionDataLoading } =
-		useTodayQuestion(3, 1);
+		useTodayQuestion(55, 26);
 
 	const answerMutation = useAnswerMutation({
 		path: 'daily',
@@ -60,6 +64,8 @@ const Home = () => {
 			initializeData();
 		},
 	});
+
+	// 커플 : 26, userId: 55
 
 	const handleSubmitAnswer = () => {
 		answerMutation.mutate({
@@ -79,12 +85,10 @@ const Home = () => {
 	};
 
 	useEffect(() => {
-		const token = localStorageHelper('get', 'access_token');
+		const token = localStorageHelper('get', 'accessToken');
 
 		if (!token) {
 			router.push('/auth');
-		} else {
-			setUserInfo(token);
 		}
 	}, []);
 
@@ -94,6 +98,12 @@ const Home = () => {
 			setInputValue((prev) => ({ ...dailyQuestionData.data }));
 		}
 	}, [dailyQuestionData]);
+
+	useEffect(() => {
+		if (userInfoData && !userInfo) {
+			setUserInfo(userInfoData);
+		}
+	}, [userInfoData, userInfo]);
 
 	return (
 		<div>

@@ -9,7 +9,7 @@ const instance = axios.create({
 // Add a request interceptor
 instance.interceptors.request.use(
 	(config: any) => {
-		const accessToken = localStorageHelper('get', 'access_token');
+		const accessToken = localStorageHelper('get', 'accessToken');
 
 		if (!config.headers.Authorization) {
 			config.headers.Authorization = `Bearer ${accessToken}`;
@@ -28,7 +28,7 @@ axios.interceptors.response.use(
 	},
 	(error) => {
 		console.log('error', error);
-		if (!localStorageHelper('get', 'access_token')) {
+		if (!localStorageHelper('get', 'accessToken')) {
 			window?.location?.replace('/');
 			return false;
 		}

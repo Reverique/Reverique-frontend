@@ -73,7 +73,7 @@ const Buckets = () => {
 	});
 
 	const { data: bucketsData, isLoading: isBucketsDataLoading } =
-		useBucketList(3);
+		useBucketList(26);
 
 	const initializeData = () => {
 		setUpdatedBucket({
